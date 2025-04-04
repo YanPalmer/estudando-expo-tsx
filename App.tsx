@@ -31,3 +31,9 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+// Comentário simples
+// * Informação importante
+// ! Deprecated method, do not use
+// ? Should this method be exposed in the public API?
+// TODO: refactor this method so that it conforms to the API

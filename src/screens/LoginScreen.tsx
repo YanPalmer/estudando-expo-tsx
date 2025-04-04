@@ -76,14 +76,13 @@ export default function LoginScreen({ navigation }: Props) {
       <Text style={styles.subtitle}>Enter your username and password to login</Text>
 
       <View style={styles.inputContainer}>
-        {/* <TextInput placeholder="Username" style={styles.input} /> */}
         <TextInput
           placeholder="Username"
           style={styles.input}
           value={username}
           onChangeText={setUsername}
         />
-        <TouchableOpacity>
+        <TouchableOpacity> // TODO: Fazer recuperação de nome de usuário
           <Text style={styles.forgotText}>Forgot Username?</Text>
         </TouchableOpacity>
       </View>
@@ -97,7 +96,7 @@ export default function LoginScreen({ navigation }: Props) {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity>
+        <TouchableOpacity> // TODO: Fazer recuperação de senha de usuário
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
@@ -106,7 +105,7 @@ export default function LoginScreen({ navigation }: Props) {
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
 
-      <Text style={styles.orText}>Or login in with</Text>
+      <Text style={styles.orText}>Or login in with</Text> // TODO: Fazer login pela rede social favorita
 
       <View style={styles.socialContainer}>
         <TouchableOpacity style={styles.socialButton}>
@@ -119,8 +118,8 @@ export default function LoginScreen({ navigation }: Props) {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.registerText}>Don't have an account? <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>Register</Text></Text>
-      <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text>
+      <Text style={styles.registerText}>Don't have an account? <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>Register</Text></Text> // TODO: Registrar a conta de um novo usuário
+      <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text> // TODO: Fazer central de ajuda
     </View>
   );
 }
