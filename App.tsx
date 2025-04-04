@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Register: undefined;
 };
 
+// Cria uma navegação em forma de pilha - Cada nova tela fica por cima da anterior
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {

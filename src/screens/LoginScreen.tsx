@@ -7,10 +7,16 @@ import { FontAwesome } from "@expo/vector-icons";
 // Toast para Android
 import Toast from "react-native-toast-message";
 
+// Definindo props da tela
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, "Login">;
 
 interface Props {
   navigation: LoginScreenNavigationProp;
+}
+
+const Usuario = {
+  username: "admin",
+  password: "1234",
 }
 
 export default function LoginScreen({ navigation }: Props) {
@@ -18,12 +24,40 @@ export default function LoginScreen({ navigation }: Props) {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
-      navigation.replace("Menu"); // Navega para a tela de Menu e remove a tela de Login do histórico
-    }
-    else {
-      if (Platform.OS !== "web") {
-        // Exibe toast no celular
+    if (Platform.OS === "android") {
+      if (!username && !password) { // Verifica se os campos username e password estão vazios
+        Toast.show({
+          type: "error",
+          text1: "Campos obrigatórios",
+          text2: "Preencha nome de usuário e senha",
+        });
+        return;
+      }
+      if (!username) { // Verifica o username
+        Toast.show({
+          type: "error",
+          text1: "Campo obrigatório",
+          text2: "Preencha o nome de usuário",
+        });
+        return;
+      }
+      if (!password) { // Verifica o password
+        Toast.show({
+          type: "error",
+          text1: "Campo obrigatório",
+          text2: "Preencha a senha",
+        });
+        return;
+      }
+      const isValidUser = (username === Usuario.username) && (password === Usuario.password);
+      if (isValidUser) {
+        navigation.replace("Menu");
+        Toast.show({
+          type: "success",
+          text1: "Login bem-sucedido",
+          text2: "Seja bem-vindo!",
+        });
+      } else {
         Toast.show({
           type: "error",
           text1: "Erro",
@@ -31,7 +65,9 @@ export default function LoginScreen({ navigation }: Props) {
         });
       }
     }
+    // Se a plataforma for Web
   };
+
 
   return (
     <View style={styles.container}>
