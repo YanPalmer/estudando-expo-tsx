@@ -11,8 +11,8 @@ import Toast from 'react-native-toast-message';
 // Define quais telas existem na navegação
 export type RootStackParamList = {
   Login: undefined;
-  Menu: undefined;
   Register: undefined;
+  Menu: { nome: string }; // * <- Aqui precisa aceitar `nome` como parâmetro
 };
 
 // Cria uma navegação em forma de pilha - Cada nova tela fica por cima da anterior

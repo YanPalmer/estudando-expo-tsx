@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101571996608",
+    "project_id": "teste-cadastro-produtos-aeb8c",
+    "storage_bucket": "teste-cadastro-produtos-aeb8c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101571996608:android:00d795528d68930312b625",
+        "android_client_info": {
+          "package_name": "teste_android.login.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOCES_VXoWwMbdk5A-q9ZaZ0NxfZncw2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

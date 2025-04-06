@@ -3,16 +3,21 @@ import { View, Text, TextInput, Alert, StyleSheet, Image, TouchableOpacity, Plat
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../App";
 import { FontAwesome } from "@expo/vector-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 // Toast para Android
 import Toast from "react-native-toast-message";
+
 const showToast = (type: "success" | "info" | "error", text1: string, text2?: string, options?: {
   autoHide?: boolean;
   visibilityTime?: number;
 }) => {
-  Toast.show({ type, text1, text2,
+  Toast.show({
+    type, text1, text2,
     autoHide: options?.autoHide,
-    visibilityTime: options?.visibilityTime})
+    visibilityTime: options?.visibilityTime
+  })
 };
 
 
@@ -25,25 +30,25 @@ interface Props {
 
 //! Não seguro, armazenar em um banco de dados local
 const Usuario = {
-  username: "admin",
+  email: "admin",
   password: "1234",
 }
 
 export default function LoginScreen({ navigation }: Props) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   //* Função de Login
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (Platform.OS === "android") {
-      // Verifica se os campos username e password estão vazios
-      if (!username && !password) {
-        showToast("error", "Campost obrigatórios", "Preencha nome de usuário e senha");
+      // Verifica se os campos email e password estão vazios
+      if (!email && !password) {
+        showToast("error", "Campos obrigatórios", "Preencha email de usuário e senha");
         return;
       }
-      // Verifica o username
-      if (!username) {
-        showToast("error", "Campo obrigatório", "Preencha o nome de usuário");
+      // Verifica o email
+      if (!email) {
+        showToast("error", "Campo obrigatório", "Preencha o email de usuário");
         return;
       }
       // Verifica o password
@@ -51,15 +56,26 @@ export default function LoginScreen({ navigation }: Props) {
         showToast("error", "Campo obrigatório", "Preencha a senha");
         return;
       }
-      const isValidUser = (username === Usuario.username) && (password === Usuario.password);
-      if (isValidUser) {
-        navigation.replace("Menu");
-        showToast("success", "Login bem-sucedido", "Seja bem-vindo!", {
-          autoHide: true,
-          visibilityTime: 3000,
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        Toast.show({
+          type: "success",
+          text1: "Login realizado",
+          text2: `Bem-vindo(a), ${user.displayName || "usuário"}!`
         });
-      } else {
-        showToast("error", "Erro", "Usuário ou senha incorretos");
+
+        // Navegar para Menu passando o nome
+        navigation.navigate("Menu", { nome: user.displayName || "Usuário" });
+      } catch (error: any) {
+        console.log("Erro ao logar:", error.message);
+        Toast.show({
+          type: "error",
+          text1: "Erro ao logar",
+          text2: error.message
+        });
       }
     }
     // Se a plataforma for Web
@@ -71,22 +87,22 @@ export default function LoginScreen({ navigation }: Props) {
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/yan-logo.png')} />
       <Text style={styles.title}>Login</Text>
-      <Text style={styles.subtitle}>Enter your username and password to login</Text>
-      
-      {/* //* Username Input Container */}
+      <Text style={styles.subtitle}>Enter your email and password to login</Text>
+
+      {/* //* Email Input Container */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Username"
+          placeholder="E-mail"
           style={styles.input}
-          value={username}
-          onChangeText={setUsername}
+          value={email}
+          onChangeText={setEmail}
         />
         {/* //TODO: Fazer recuperação de nome de usuário */}
         <TouchableOpacity>
-          <Text style={styles.forgotText}>Forgot Username?</Text>
+          <Text style={styles.forgotText}>Forgot your E-mail?</Text>
         </TouchableOpacity>
       </View>
-      
+
       {/* //* Password Input Container */}
       <View style={styles.inputContainer}>
         {/* <TextInput placeholder="Password" secureTextEntry style={styles.input} /> */}
@@ -97,21 +113,21 @@ export default function LoginScreen({ navigation }: Props) {
           onChangeText={setPassword}
           secureTextEntry
         />
-        
+
         {/* //TODO: Fazer recuperação de senha de usuário */}
-        <TouchableOpacity> 
+        <TouchableOpacity>
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      
+
       {/* //* Botão Login */}
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
-      
+
       {/* //TODO: Fazer login pela rede social favorita */}
       <Text style={styles.orText}>Or login in with</Text>
-      
+
       {/* //* Container para redes sociais */}
       <View style={styles.socialContainer}>
         <TouchableOpacity style={styles.socialButton}>
@@ -123,10 +139,10 @@ export default function LoginScreen({ navigation }: Props) {
           <Text style={styles.socialText}>Facebook</Text>
         </TouchableOpacity>
       </View>
-      
+
       {/* //TODO: Registrar a conta de um novo usuário */}
       <Text style={styles.registerText}>Don't have an account? <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>Register</Text></Text>
-      
+
       {/* //TODO: Fazer central de ajuda */}
       <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text>
     </View>
