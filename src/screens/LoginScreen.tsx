@@ -6,6 +6,15 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // Toast para Android
 import Toast from "react-native-toast-message";
+const showToast = (type: "success" | "info" | "error", text1: string, text2?: string, options?: {
+  autoHide?: boolean;
+  visibilityTime?: number;
+}) => {
+  Toast.show({ type, text1, text2,
+    autoHide: options?.autoHide,
+    visibilityTime: options?.visibilityTime})
+};
+
 
 // Definindo props da tela
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, "Login">;
@@ -14,6 +23,7 @@ interface Props {
   navigation: LoginScreenNavigationProp;
 }
 
+//! Não seguro, armazenar em um banco de dados local
 const Usuario = {
   username: "admin",
   password: "1234",
@@ -23,49 +33,37 @@ export default function LoginScreen({ navigation }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  //* Função de Login
   const handleLogin = () => {
     if (Platform.OS === "android") {
-      if (!username && !password) { // Verifica se os campos username e password estão vazios
-        Toast.show({
-          type: "error",
-          text1: "Campos obrigatórios",
-          text2: "Preencha nome de usuário e senha",
-        });
+      // Verifica se os campos username e password estão vazios
+      if (!username && !password) {
+        showToast("error", "Campost obrigatórios", "Preencha nome de usuário e senha");
         return;
       }
-      if (!username) { // Verifica o username
-        Toast.show({
-          type: "error",
-          text1: "Campo obrigatório",
-          text2: "Preencha o nome de usuário",
-        });
+      // Verifica o username
+      if (!username) {
+        showToast("error", "Campo obrigatório", "Preencha o nome de usuário");
         return;
       }
-      if (!password) { // Verifica o password
-        Toast.show({
-          type: "error",
-          text1: "Campo obrigatório",
-          text2: "Preencha a senha",
-        });
+      // Verifica o password
+      if (!password) {
+        showToast("error", "Campo obrigatório", "Preencha a senha");
         return;
       }
       const isValidUser = (username === Usuario.username) && (password === Usuario.password);
       if (isValidUser) {
         navigation.replace("Menu");
-        Toast.show({
-          type: "success",
-          text1: "Login bem-sucedido",
-          text2: "Seja bem-vindo!",
+        showToast("success", "Login bem-sucedido", "Seja bem-vindo!", {
+          autoHide: true,
+          visibilityTime: 3000,
         });
       } else {
-        Toast.show({
-          type: "error",
-          text1: "Erro",
-          text2: "Usuário ou senha incorretos",
-        });
+        showToast("error", "Erro", "Usuário ou senha incorretos");
       }
     }
     // Se a plataforma for Web
+    // TODO: Implementar para que seja obrigatório o preenchimento diretamnte nos campos
   };
 
 
@@ -74,7 +72,8 @@ export default function LoginScreen({ navigation }: Props) {
       <Image style={styles.logo} source={require('../assets/yan-logo.png')} />
       <Text style={styles.title}>Login</Text>
       <Text style={styles.subtitle}>Enter your username and password to login</Text>
-
+      
+      {/* //* Username Input Container */}
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Username"
@@ -82,11 +81,13 @@ export default function LoginScreen({ navigation }: Props) {
           value={username}
           onChangeText={setUsername}
         />
-        <TouchableOpacity> // TODO: Fazer recuperação de nome de usuário
+        {/* //TODO: Fazer recuperação de nome de usuário */}
+        <TouchableOpacity>
           <Text style={styles.forgotText}>Forgot Username?</Text>
         </TouchableOpacity>
       </View>
-
+      
+      {/* //* Password Input Container */}
       <View style={styles.inputContainer}>
         {/* <TextInput placeholder="Password" secureTextEntry style={styles.input} /> */}
         <TextInput
@@ -96,17 +97,22 @@ export default function LoginScreen({ navigation }: Props) {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity> // TODO: Fazer recuperação de senha de usuário
+        
+        {/* //TODO: Fazer recuperação de senha de usuário */}
+        <TouchableOpacity> 
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-
+      
+      {/* //* Botão Login */}
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
-
-      <Text style={styles.orText}>Or login in with</Text> // TODO: Fazer login pela rede social favorita
-
+      
+      {/* //TODO: Fazer login pela rede social favorita */}
+      <Text style={styles.orText}>Or login in with</Text>
+      
+      {/* //* Container para redes sociais */}
       <View style={styles.socialContainer}>
         <TouchableOpacity style={styles.socialButton}>
           <FontAwesome name="google" size={20} color="#DB4437" />
@@ -117,9 +123,12 @@ export default function LoginScreen({ navigation }: Props) {
           <Text style={styles.socialText}>Facebook</Text>
         </TouchableOpacity>
       </View>
-
-      <Text style={styles.registerText}>Don't have an account? <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>Register</Text></Text> // TODO: Registrar a conta de um novo usuário
-      <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text> // TODO: Fazer central de ajuda
+      
+      {/* //TODO: Registrar a conta de um novo usuário */}
+      <Text style={styles.registerText}>Don't have an account? <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>Register</Text></Text>
+      
+      {/* //TODO: Fazer central de ajuda */}
+      <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text>
     </View>
   );
 }

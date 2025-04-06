@@ -32,6 +32,7 @@ export default function App() {
   );
 }
 
+// Lembrando que só Funciona fora do código TSX{}
 // Comentário simples
 // * Informação importante
 // ! Deprecated method, do not use
