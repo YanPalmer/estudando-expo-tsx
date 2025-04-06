@@ -9,7 +9,7 @@ import { auth } from "../../firebaseConfig";
 // Toast para Android
 import Toast from "react-native-toast-message";
 
-const showToast = (type: "success" | "info" | "error", text1: string, text2?: string, options?: {
+export const showToast = (type: "success" | "info" | "error", text1: string, text2?: string, options?: {
   autoHide?: boolean;
   visibilityTime?: number;
 }) => {
@@ -67,8 +67,8 @@ export default function LoginScreen({ navigation }: Props) {
           text2: `Bem-vindo(a), ${user.displayName || "usuário"}!`
         });
 
-        // Navegar para Menu passando o nome
-        navigation.navigate("Menu", { nome: user.displayName || "Usuário" });
+        // Navegar para Profile Photo (sem passar o nome agora)
+        navigation.navigate("ProfilePhoto");
       } catch (error: any) {
         console.log("Erro ao logar:", error.message);
         Toast.show({

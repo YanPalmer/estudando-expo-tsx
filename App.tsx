@@ -7,12 +7,14 @@ import RegisterScreen from "./src/screens/RegisterScreen";
 
 // Testando
 import Toast from 'react-native-toast-message';
+import ProfilePhotoScreen from "./src/screens/ProfilePhotoScreen";
 
 // Define quais telas existem na navegação
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
-  Menu: { nome: string }; // * <- Aqui precisa aceitar `nome` como parâmetro
+  Menu: undefined; // * <- Aqui precisa aceitar `nome` como parâmetro
+  ProfilePhoto: undefined;
 };
 
 // Cria uma navegação em forma de pilha - Cada nova tela fica por cima da anterior
@@ -25,6 +27,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="ProfilePhoto" component={ProfilePhotoScreen} />
       </Stack.Navigator>
       <Toast />
       {/* <ToastContainer position="top-right" autoClose={3000} /> */}
