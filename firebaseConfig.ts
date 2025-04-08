@@ -4,13 +4,22 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+import {
+  GOOGLE_API_KEY,
+  GOOGLE_AUTH_DOMAIN,
+  GOOGLE_PROJECT_ID,
+  GOOGLE_STORAGE_BUCKET,
+  GOOGLE_MESSAGING_SENDER_ID,
+  GOOGLE_APP_ID
+} from '@env';
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBOCES_VXoWwMbdk5A-q9ZaZ0NxfZncw2E",
-  authDomain: "teste-cadastro-produtos-aeb8c.firebaseapp.com", // <-- Corrigido
-  projectId: "teste-cadastro-produtos-aeb8c",
-  storageBucket: "teste-cadastro-produtos-aeb8c.appspot.com", // <-- Corrigido também
-  messagingSenderId: "101571996608",
-  appId: "1:101571996608:android:00d795528d68930312b625"
+  apiKey: GOOGLE_API_KEY,
+  authDomain: GOOGLE_AUTH_DOMAIN,
+  projectId: GOOGLE_PROJECT_ID,
+  storageBucket: GOOGLE_STORAGE_BUCKET,
+  messagingSenderId: GOOGLE_MESSAGING_SENDER_ID,
+  appId: GOOGLE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
