@@ -145,6 +145,24 @@ export default function LoginScreen({ navigation }: Props) {
 
       {/* //TODO: Fazer central de ajuda */}
       <Text style={styles.helpText}>Need help? Visit our <Text style={styles.helpLink}>help center</Text></Text>
+
+
+      {/* //* Botões para navegar para TabScreen e DrawerNavigator */}
+      <View style={{ width: "100%", marginTop: 20 }}>
+        <TouchableOpacity
+          style={[styles.loginButton, { backgroundColor: "#0066cc" }]}
+          onPress={() => navigation.navigate("TabScreen")}
+        >
+          <Text style={styles.loginText}>Ir para TabScreen</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.loginButton, { backgroundColor: "#009688" }]}
+          onPress={() => navigation.navigate("DrawerNavigator")}
+        >
+          <Text style={styles.loginText}>Ir para DrawerNavigator</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
